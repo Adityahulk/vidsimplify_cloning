@@ -28,30 +28,27 @@ docker run -d \
 
 ### Option 2: Local Development
 
-1. Install dependencies:
+1. **Install dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Set your API keys and configure Google Cloud Storage:
-```bash
-export SYNC_API_KEY="your_sync_api_key"
-export ELEVENLABS_API_KEY="your_elevenlabs_api_key"
-export GCS_BUCKET_NAME="vidsimplify"
-export GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/your-gcs-credentials.json"
-```
+2. **Credentials are ready in `.env` file** (already configured)
 
-**Note:** For video upload functionality, you need:
-- A Google Cloud Storage bucket
-- Service account credentials JSON file
-- The bucket should allow public access for uploaded files
-
-3. Run the server:
+3. **Run the server:**
 ```bash
 uvicorn main:app --reload
 ```
 
 The API will be available at `http://localhost:8000`
+
+**Your `.env` file contains:**
+- ✅ `SYNC_API_KEY` - Sync API credentials
+- ✅ `ELEVENLABS_API_KEY` - ElevenLabs credentials  
+- ✅ `GCS_BUCKET_NAME` - vidsimplify
+- ✅ `GOOGLE_APPLICATION_CREDENTIALS` - Path to GCS JSON file
+
+**Note:** The `.env` file and GCS JSON credentials are protected by `.gitignore` and will NOT be committed to git.
 
 ## Quick Reference
 

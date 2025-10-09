@@ -20,10 +20,19 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY main.py .
 
 # Environment variables (pass these at runtime)
+# API Keys
 ENV SYNC_API_KEY=${SYNC_API_KEY}
 ENV ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
 ENV GCS_BUCKET_NAME=${GCS_BUCKET_NAME:-vidsimplify}
+
+# GCS Credentials - supports multiple methods:
+# 1. GOOGLE_APPLICATION_CREDENTIALS (file path - for local/volume mount)
+# 2. GCS_CREDENTIALS_BASE64 (base64 encoded JSON - for cloud deployments)
+# 3. GCS_CREDENTIALS_JSON (raw JSON string - for cloud deployments)
 ENV GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+ENV GCS_CREDENTIALS_BASE64=${GCS_CREDENTIALS_BASE64}
+ENV GCS_CREDENTIALS_JSON=${GCS_CREDENTIALS_JSON}
+
 ENV PYTHONUNBUFFERED=1
 
 # Expose port

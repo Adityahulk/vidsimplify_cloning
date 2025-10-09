@@ -5,10 +5,13 @@ from sync import Sync
 from sync.common import Audio, GenerationOptions, Video, Tts
 from elevenlabs.client import ElevenLabs
 from google.cloud import storage
+from google.oauth2 import service_account
 from io import BytesIO
 from dotenv import load_dotenv
 import os
 import uuid
+import json
+import base64
 from datetime import datetime
 
 # Load environment variables from .env file
@@ -25,11 +28,35 @@ client = Sync(api_key=SYNC_API_KEY)
 elevenlabs = ElevenLabs(api_key=ELEVENLABS_API_KEY)
 
 # Initialize Google Cloud Storage client
-try:
-    storage_client = storage.Client()
-except Exception as e:
-    print(f"Warning: Could not initialize GCS client: {e}")
-    storage_client = None
+def initialize_gcs_client():
+    """Initialize GCS client with support for both file and env var credentials"""
+    try:
+        # Check if credentials are provided as base64 encoded JSON in env var
+        gcs_creds_base64 = os.getenv("GCS_CREDENTIALS_BASE64")
+        if gcs_creds_base64:
+            print("Using GCS credentials from GCS_CREDENTIALS_BASE64 environment variable")
+            creds_json = base64.b64decode(gcs_creds_base64).decode('utf-8')
+            creds_dict = json.loads(creds_json)
+            credentials = service_account.Credentials.from_service_account_info(creds_dict)
+            return storage.Client(credentials=credentials, project=creds_dict.get('project_id'))
+        
+        # Check if credentials JSON is provided directly in env var
+        gcs_creds_json = os.getenv("GCS_CREDENTIALS_JSON")
+        if gcs_creds_json:
+            print("Using GCS credentials from GCS_CREDENTIALS_JSON environment variable")
+            creds_dict = json.loads(gcs_creds_json)
+            credentials = service_account.Credentials.from_service_account_info(creds_dict)
+            return storage.Client(credentials=credentials, project=creds_dict.get('project_id'))
+        
+        # Fall back to default credentials (file path or application default)
+        print("Using GCS default credentials (GOOGLE_APPLICATION_CREDENTIALS or application default)")
+        return storage.Client()
+    
+    except Exception as e:
+        print(f"Warning: Could not initialize GCS client: {e}")
+        return None
+
+storage_client = initialize_gcs_client()
 
 
 # Request/Response models
