@@ -14,11 +14,11 @@ docker build -t vidsimplify-api .
 docker run -d \
   --name vidsimplify-api \
   -p 8000:8000 \
-  -e SYNC_API_KEY="sk-nFCyvnGgRPKo5CuQFUUk2w.-QOdcHi1QRDh4X9t8gaziY_el1oDqkG7" \
-  -e ELEVENLABS_API_KEY="sk_5ee9aa2bb47b19f3d8eda470240bf076b9a184f7fd687f91" \
+  -e SYNC_API_KEY="your_sync_api_key" \
+  -e ELEVENLABS_API_KEY="your_elevenlabs_api_key" \
   -e GCS_BUCKET_NAME="vidsimplify" \
   -e GOOGLE_APPLICATION_CREDENTIALS="/app/gcs-key.json" \
-  -v $(pwd)/gen-lang-client-0244179777-8b74f1527f62.json:/app/gcs-key.json:ro \
+  -v $(pwd)/your-gcs-credentials.json:/app/gcs-key.json:ro \
   vidsimplify-api
 ```
 
@@ -80,11 +80,11 @@ docker build --no-cache -t vidsimplify-api .
 docker run -d \
   --name vidsimplify-api \
   -p 9000:8000 \
-  -e SYNC_API_KEY="..." \
-  -e ELEVENLABS_API_KEY="..." \
+  -e SYNC_API_KEY="your_sync_api_key" \
+  -e ELEVENLABS_API_KEY="your_elevenlabs_api_key" \
   -e GCS_BUCKET_NAME="vidsimplify" \
   -e GOOGLE_APPLICATION_CREDENTIALS="/app/gcs-key.json" \
-  -v $(pwd)/gen-lang-client-0244179777-8b74f1527f62.json:/app/gcs-key.json:ro \
+  -v $(pwd)/your-gcs-credentials.json:/app/gcs-key.json:ro \
   vidsimplify-api
 ```
 API will be available at http://localhost:9000

@@ -14,11 +14,11 @@ docker build -t vidsimplify-api .
 docker run -d \
   --name vidsimplify-api \
   -p 8000:8000 \
-  -e SYNC_API_KEY="sk-nFCyvnGgRPKo5CuQFUUk2w.-QOdcHi1QRDh4X9t8gaziY_el1oDqkG7" \
-  -e ELEVENLABS_API_KEY="sk_5ee9aa2bb47b19f3d8eda470240bf076b9a184f7fd687f91" \
+  -e SYNC_API_KEY="your_sync_api_key" \
+  -e ELEVENLABS_API_KEY="your_elevenlabs_api_key" \
   -e GCS_BUCKET_NAME="vidsimplify" \
   -e GOOGLE_APPLICATION_CREDENTIALS="/app/gcs-key.json" \
-  -v $(pwd)/gen-lang-client-0244179777-8b74f1527f62.json:/app/gcs-key.json:ro \
+  -v $(pwd)/your-gcs-credentials.json:/app/gcs-key.json:ro \
   vidsimplify-api
 ```
 
@@ -35,10 +35,10 @@ pip install -r requirements.txt
 
 2. Set your API keys and configure Google Cloud Storage:
 ```bash
-export SYNC_API_KEY="sk-nFCyvnGgRPKo5CuQFUUk2w.-QOdcHi1QRDh4X9t8gaziY_el1oDqkG7"
-export ELEVENLABS_API_KEY="sk_5ee9aa2bb47b19f3d8eda470240bf076b9a184f7fd687f91"
+export SYNC_API_KEY="your_sync_api_key"
+export ELEVENLABS_API_KEY="your_elevenlabs_api_key"
 export GCS_BUCKET_NAME="vidsimplify"
-export GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/gen-lang-client-0244179777-8b74f1527f62.json"
+export GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/your-gcs-credentials.json"
 ```
 
 **Note:** For video upload functionality, you need:
